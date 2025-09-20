@@ -20,7 +20,8 @@ const app = express();
 
 // ✅ Serve "images" folder as static
 app.use("/images", express.static(path.join(__dirname, "datax/images")));
-app.use(express.static(path.join(__dirname, "../client/build")));
+// Serve React build
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 
 // Middleware
@@ -61,6 +62,5 @@ app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 // React frontend fallback (must be after API routes)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
-

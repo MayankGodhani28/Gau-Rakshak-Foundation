@@ -2,11 +2,11 @@ services:
   - type: web
     name: gau-rakshak-foundation
     env: node
-    rootDir: server
+    rootDir: backend      # backend folder
     buildCommand: |
       npm install
-      cd ../client && npm install && npm run build
-      cd ../server
+      cd ../frontend && npm install && npm run build
+      cd ../backend
     startCommand: npm start
     envVars:
       - key: MONGO_URI

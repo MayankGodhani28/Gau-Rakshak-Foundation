@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: gau-rakshak-foundation
+    env: node
+    rootDir: server
+    buildCommand: |
+      npm install
+      cd ../client && npm install && npm run build
+      cd ../server
+    startCommand: node index.js
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false

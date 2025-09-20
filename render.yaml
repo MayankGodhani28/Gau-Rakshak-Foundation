@@ -7,9 +7,11 @@ services:
       npm install
       cd ../client && npm install && npm run build
       cd ../server
-    startCommand: node index.js
+    startCommand: npm start
     envVars:
       - key: MONGO_URI
+        sync: false
+      - key: PORT
         sync: false
       - key: STRIPE_SECRET_KEY
         sync: false

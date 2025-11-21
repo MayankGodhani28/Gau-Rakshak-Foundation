@@ -20,6 +20,7 @@ const ReviewForm = ({ onSubmitSuccess }) => {
   };
 
   const handleRating = (value) => {
+    // console.log(formData);
     setFormData({ ...formData, rating: value });
   };
 

@@ -20,8 +20,7 @@ const app = express();
 
 // ✅ Serve "images" folder as static
 app.use("/images", express.static(path.join(__dirname, "datax/images")));
-// Serve React build
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
 
 
 // Middleware
@@ -45,7 +44,7 @@ app.use("/api/feedbacks", feedbackRoutes);
 app.use("/api/donations", donationRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/cart",cartRoutes)
+app.use("/api/cart",cartRoutes);
 
 // MongoDB connection
 mongoose
@@ -60,7 +59,4 @@ mongoose
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
-// React frontend fallback (must be after API routes)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
+

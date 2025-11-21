@@ -17,7 +17,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newFeedback = new Feedback(req.body);
+    
     await newFeedback.save();
+
     res.status(201).json(newFeedback);
   } catch (err) {
     res.status(400).json({ message: "Error saving feedback", error: err.message });

@@ -4,7 +4,6 @@ const data = require("../datax/data");
 
 const router = express.Router();
 
-
 // ✅ Get All Products
 router.get("/", async (req, res) => {
   try {
@@ -15,7 +14,5 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 module.exports = router;

@@ -85,7 +85,7 @@ const data=[
 
 // Only run if this file is executed directly
 if (require.main === module) {
-  mongoose.connect("mongodb+srv://bmayankgodhani_db_user:kyxZI64OnP9w9xpQ@gaurakshakfoundation.frbfsbn.mongodb.net/?retryWrites=true&w=majority&appName=GauRakshakFoundation", { useNewUrlParser: true, useUnifiedTopology: true })
+  mongoose.connect("mongodb+srv://godhanimayank075_db_user:H9Tp8CS6EXoVI1Ki@gaurakshakfoundation.vhlvzpe.mongodb.net/", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(async () => {
       try {
         console.log("Connected to MongoDB");

@@ -6,6 +6,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "../PaymentForm";
 
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const Donate = () => {
@@ -20,10 +23,13 @@ const Donate = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
+  
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5000/api/donations", formData);
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API ? `${AXIOS_API}/api/donations` : "/api/donations";
+      const { data } = await axios.post(endpoint, formData);
       setPaymentData(data);
     } catch (err) {
       alert(err.response?.data?.error || err.message);

@@ -8,6 +8,7 @@ const validateDonation = require("../middleware/validateDonation");
 // Create donation & PaymentIntent
 router.post("/", validateDonation, async (req, res) => {
   const { name, email, phone, amount, donationType, heardAbout, message } = req.body;
+  console.log(req.body);
 
   try {
     // Validate amount

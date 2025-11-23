@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -13,7 +15,9 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", form);
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API ? `${AXIOS_API}/api/auth/login` : "/api/auth/login";
+      const res = await axios.post(endpoint, form);
       login(res.data.token); // Update context
       navigate("/shop");
     } catch (err) {
@@ -64,6 +68,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default Login;

@@ -4,7 +4,7 @@ import axios from "axios";
 const initialFormData = {
   name: "",
   email: "",
-  relationship: "",
+  role: "",
   rating: 0,
   experience: "",
   category: "",
@@ -12,10 +12,14 @@ const initialFormData = {
   recommend: "",
 };
 
+// add API base for axios from CRA-style env var REACT_APP_API_URL (trim trailing slash)
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
 const ReviewForm = ({ onSubmitSuccess }) => {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
+   
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -25,9 +29,12 @@ const ReviewForm = ({ onSubmitSuccess }) => {
   };
 
   const handleSubmit = async (e) => {
+    // console.log(formData);
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/feedbacks", formData);
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API ? `${AXIOS_API}/api/feedbacks` : "/api/feedbacks";
+      await axios.post(endpoint, formData);
       alert("Feedback submitted successfully!");
       setFormData(initialFormData);
       if (onSubmitSuccess) onSubmitSuccess();
@@ -77,8 +84,8 @@ const ReviewForm = ({ onSubmitSuccess }) => {
             Your Relationship with Us
           </label>
           <select
-            name="relationship"
-            value={formData.relationship}
+            name="role"
+            value={formData.role}
             onChange={handleChange}
             className="w-full border p-2 rounded"
           >

@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
 // POST new feedback
 router.post("/", async (req, res) => {
   try {
+    console.log("output is :",req.body);
     const newFeedback = new Feedback(req.body);
     
     await newFeedback.save();

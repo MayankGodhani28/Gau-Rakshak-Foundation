@@ -4,13 +4,17 @@ import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
 import axios from "axios";
 
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
 const Feedback = () => {
   const [reviews, setReviews] = useState([]);
 
   // Fetch reviews from backend
   const fetchReviews = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/feedbacks");
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API ? `${AXIOS_API}/api/feedbacks` : "/api/feedbacks";
+      const res = await axios.get(endpoint);
       setReviews(res.data);
     } catch (err) {
       console.error("Error fetching reviews:", err);

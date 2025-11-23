@@ -6,6 +6,9 @@ import PaymentForm from "../PaymentForm"; // your existing PaymentForm
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // <-- added
 
+// add AXIOS_API from CRA-style env var REACT_APP_API_URL (trim trailing slash)
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
 const stripePromise = loadStripe(
   "pk_test_51S8hKtBSrBgMSrySJTmPMR9hKIWnsDHiudNAjoLMTH2KFNZKr1qokg2lFC1NYAWWe95rc6Rw1bxM07jwCi8giOFs00iHvP3YFi"
 );
@@ -40,16 +43,17 @@ const Cart = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/cart/create-payment",
-        {
-          items: cartItems,
-          total: getTotal(),
-          name,
-          email,
-          address,
-        }
-      );
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API
+        ? `${AXIOS_API}/api/cart/create-payment`
+        : "/api/cart/create-payment";
+      const { data } = await axios.post(endpoint, {
+        items: cartItems,
+        total: getTotal(),
+        name,
+        email,
+        address,
+      });
 
       setPaymentData(data);
       setShowPayment(true);

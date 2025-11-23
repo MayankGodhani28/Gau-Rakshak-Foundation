@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
+// add AXIOS_API from CRA-style env var REACT_APP_API_URL (trim trailing slash)
+const AXIOS_API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
 const SignUp = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
@@ -13,7 +16,9 @@ const SignUp = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", form);
+      // use REACT_APP_API_URL for axios requests only, fallback to relative path
+      const endpoint = AXIOS_API ? `${AXIOS_API}/api/auth/signup` : "/api/auth/signup";
+      const res = await axios.post(endpoint, form);
       login(res.data.token); // Update context
       navigate("/shop");
     } catch (err) {

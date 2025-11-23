@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+// replace invalid import with env var (trim trailing slash)
+const API = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
+if (!API) {
+  console.warn(
+    "REACT_APP_API_URL not set — using relative API path '/api/rescues'"
+  );
+}
+
 const CowRescueForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +29,9 @@ const CowRescueForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/rescues", formData);
+      // use provided API base or fallback to relative path
+      const endpoint = API ? `${API}/api/rescues` : "/api/rescues";
+      await axios.post(endpoint, formData);
       alert("Rescue request submitted successfully!");
 
       // Reset form after success

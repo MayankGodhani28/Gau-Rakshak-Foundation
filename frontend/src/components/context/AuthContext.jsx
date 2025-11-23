@@ -7,17 +7,17 @@ export const AuthProvider = ({ children }) => {
 
   // Check token on mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
 
   const login = (token) => {
-    localStorage.setItem("token", token);
+    sessionStorage.setItem("token", token);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setIsLoggedIn(false);
   };
 

@@ -3,20 +3,25 @@ import { ShoppingCart } from "lucide-react";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
+// Load backend URL from Vite env
+const API_BASE = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+if (!API_BASE) {
+  console.warn("VITE_API_URL not set — product images will use relative paths.");
+}
+
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const token = localStorage.getItem("token"); // check if user is logged in
+    const token = sessionStorage.getItem("token");
+
     if (!token) {
-      // user not logged in
-      alert("Please login first to buy items."); // simple popup
-      navigate("/login"); // redirect to login page
+      alert("Please login first to buy items.");
+      navigate("/login");
       return;
     }
 
-    // user logged in, add to cart
     addToCart(product);
   };
 
@@ -25,7 +30,7 @@ const ProductCard = ({ product }) => {
       {/* Image */}
       <div className="w-full aspect-square overflow-hidden rounded">
         <img
-          src={`http://localhost:5000${product.image}`}
+          src={`${API_BASE}${product.image}`}   // ⭐ dynamic API
           alt={product.name}
           className="w-full h-full object-contain"
         />
